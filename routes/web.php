@@ -25,7 +25,7 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'loginPost'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
+Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -40,9 +40,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('todo', TodoController::class);
     Route::get('tasks/{task}/view', [TaskController::class, 'view'])->name('tasks.view');
 
-       
+    Route::group(['middleware' => ['admin']], function() {    
         Route::resource('users', UserController::class);
-
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
