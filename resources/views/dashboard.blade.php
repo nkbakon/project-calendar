@@ -1,13 +1,8 @@
 @extends('layouts.app')
 @section('bodycontent')
-<h1 class="text-center font-bold text-gray-600">Welcome {{ auth()->user()->fname }} {{ auth()->user()->lname }} ({{ auth()->user()->username }})</h1>
-<h1 class="text-center text-gray-600">Department : @if(auth()->user()->department_id != null)
-                        {{ auth()->user()->department->name }}
-                @else
-                    None
-                @endif
-</h1><br>
-@if (auth()->user()->type != 'Worker')
+<h1 class="text-center font-bold text-gray-600">Welcome </h1>
+<br>
+
 <div class="py-12">
   <div class="sm:px-6 lg:px-8">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-24 lg:px-26">
@@ -58,7 +53,7 @@
     </div>
   </div>
 </div><br>
-@else
+
 <div class="py-12">
   <div class="sm:px-6 lg:px-8">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-24 lg:px-26">
@@ -87,5 +82,5 @@
     </div>
   </div>
 </div><br>
-@endif
+
 @endsection
