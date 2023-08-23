@@ -36,5 +36,10 @@ class ProjectController extends Controller
             return redirect()->route('projects.index')->with('delete', 'No Project found!.');
         }    
     }
+
+    public function view(Project $project)
+    {
+        return view('projects.view', compact('project'));
+    }
     
 }

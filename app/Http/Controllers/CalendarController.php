@@ -39,6 +39,22 @@ class CalendarController extends Controller
     {
         $user = Auth::user()->id;
 
+        
+        $projects = Project::whereNotNull('due_date')->get()->filter(function ($project) use ($user) {
+            if ($project->user_ids != null) {
+                $userIds = json_decode($project->user_ids);
+
+                return in_array($user, $userIds);
+            }
+        })->map(function($project) {
+            return [
+                'title' => $project->title,
+                'start' => Carbon::parse($project->due_date)->format('Y-m-d'),
+                'url' => route('projects.index'),
+                'color' => '#3498db',
+            ];
+        });
+
         $tasks = Task::whereNotNull('due_date')->where('user_id', $user)->get()->map(function($task) {
             return [
                 'title' => $task->title,
@@ -48,7 +64,7 @@ class CalendarController extends Controller
             ];
         });
 
-        $events = array_merge($tasks->toArray());
+        $events = array_merge($projects->toArray(), $tasks->toArray());
 
         return view('calendar.personal', compact('events'));
     }

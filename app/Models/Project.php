@@ -17,6 +17,7 @@ class Project extends Model
         'start_date',
         'due_date',
         'note',
+        'user_ids',
         'add_by',
         'edit_by',
         'created_at',

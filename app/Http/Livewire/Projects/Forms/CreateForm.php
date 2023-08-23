@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Projects\Forms;
 
 use Livewire\Component;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CreateForm extends Component
@@ -12,11 +13,48 @@ class CreateForm extends Component
     public $start_date;
     public $due_date;
     public $note;
+    public $index;
+    public $rows = [''];
+    public $users = [];
+    public $all_users;
+    public $x = 0;
+
+    public function mount()
+    {
+        $users = User::where('status', 'Active')->get();
+        $this->all_users = $users;        
+        $this->users[$this->x] = '';   
+    }
+
+    public function addRow()
+    {
+        $this->rows[] = '';
+        $x = $this->x + 1;
+        $this->users[$x] = '';
+        $this->x = $x;
+        $this->render();
+    }
+
+    public function removeRow($index)
+    {
+        if($index != 0)
+        {
+            unset($this->rows[$index]);
+            $this->rows = array_values($this->rows);
+            $index = $index - 1;
+            $x = $this->x - 1;
+            $this->x = $x;
+            $this->users[$index+1] = '';
+            $this->render();
+        }
+    }
 
     protected $rules = [
         'title' => 'required',
         'start_date' => 'required|after_or_equal:today',
         'due_date' => 'required|after_or_equal:start_date',
+        'users' => 'required|array',
+        'users.*' => 'required',
     ];
 
     public function updated($propertyName)
@@ -27,13 +65,38 @@ class CreateForm extends Component
     public function store()
     {   
         $validatedData = $this->validate($this->rules);
+        $this->resetErrorBag('users');
+        $this->users = array_filter($this->users);
+        $data['user_ids'] = json_encode($this->users);
         $data['title'] = $this->title;
         $data['start_date'] = $this->start_date;
         $data['due_date'] = $this->due_date;
         $data['note'] = $this->note;
-        $data['add_by'] = Auth::user()->id;     
+        $data['add_by'] = Auth::user()->id;
+        
+        $userQuantities  = [];
+               
+        foreach($this->users as $index => $user){
+
+            $key = array_search($user, array_column($userQuantities, 'id'));
+
+            if ($key !== false) {
+                
+            }
+            else {
+                $userQuantities[] = [
+                    'id' => $user,
+                ];
+            }                
+        }
+        $data['user_ids'] = json_encode(array_column($userQuantities, 'id'));
 
         $project = Project::create($data);
+
+        if($this->getErrorBag()->any()){
+            return; // do not redirect if there are errors
+        }
+
         if($project){
             return redirect()->route('projects.index')->with('status', 'Project created successfully.');  
         }

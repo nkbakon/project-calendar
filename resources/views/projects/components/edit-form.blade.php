@@ -25,5 +25,24 @@
     </div>
     @error('note') <span class="text-red-500 error">{{ $message }}</span><br> @enderror
     <br>
+    @if($project->user_ids != null)
+        @foreach ($rows as $index => $row)
+            <div>
+                <strong class="inline-flex">{{ $index+1 }}.</strong>        
+            </div>
+            <div>
+                <label for="user">Assign User</label><br>
+                <select name="user" class="block w-96 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" wire:model="user.{{$index}}" disabled>
+                    <option value="" selected>Select a product from here</option>
+                    @foreach($all_users as $user)
+                    <option value="{{$user->id}}">{{$user->fname}} {{$user->fname}} ({{$user->username}})</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('{{$user->fname}}.{{$index}}') <span class="text-red-500 error">{{ $message }}</span><br> @enderror
+            <br>
+        @endforeach
+        <br>
+    @endif
     <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">Update</button>                        
 </form>

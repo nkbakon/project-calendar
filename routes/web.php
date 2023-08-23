@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('projects', ProjectController::class);
     Route::resource('tasks', TaskController::class);
     Route::resource('todo', TodoController::class);
+    Route::get('projects/{project}/view', [ProjectController::class, 'view'])->name('projects.view');
     Route::get('tasks/{task}/view', [TaskController::class, 'view'])->name('tasks.view');
 
     Route::group(['middleware' => ['admin']], function() {    

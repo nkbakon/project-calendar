@@ -25,7 +25,6 @@
         @error("departments.{$index}") <span class="text-red-500 error">{{ $message }}</span><br> @enderror
         <br>
     @endforeach
-    @error("quantities") <span class="text-red-500 error">{{ $message }}</span><br><br>@enderror
     <div>
         &nbsp;<button type="button" wire:click="addRow" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-25">
             Add Another Department
