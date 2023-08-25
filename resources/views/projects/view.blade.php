@@ -13,24 +13,20 @@
                     <div class="flex justify-between">
                         <div>
                             <p class="text-base font-bold text-gray-700">Project Overview</p>
-                            <p class="font-bold text-2xl text-emerald-600"><span class="text-sm text-gray-700">ID:</span> #{{ $project->id }}</p>
                             @if($project->note != null)
                                 <p class="text-gray-700">Note: {{ $project->note }}</p>
                             @endif
                         </div>
                         <div>
-                            <p class="text-sm text-gray-700 font-bold">Start Date <br>
-                                {{ $project->start_date }}
-                            </p><br>
                             <div class="flex justify-between">
                                 <div>
                                     <p class="text-sm text-gray-700 font-bold">Due Date <br>
                                         {{ $project->due_date }}
                                     </p>
                                 </div>
-                                <div>&nbsp;&nbsp;&nbsp;</div>
+                                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                                 <div>
-                                    <p class="text-4xl text-gray-700 font-bold">
+                                    <p class="text-8xl text-gray-700 font-bold">
                                         @php
                                             use Carbon\Carbon;
 
@@ -42,7 +38,7 @@
                                                 $diff = 0;
                                             }
                                         @endphp
-                                        {{ $diff }} days left
+                                        {{ $diff }}<span class="text-4xl">days left</span>
                                     </p>
                                 </div>
                             </div>                            
@@ -59,19 +55,7 @@
                     <p class="text-gray-700">{{ App\Models\User::find($user_ids[$i])->fname }} {{ App\Models\User::find($user_ids[$i])->lname }} ({{ App\Models\User::find($user_ids[$i])->username }})</p>
                     @endfor
                 </div><br>
-                @endif
-                <div class="py-5 bg-gray-100 px-5 rounded-lg">                    
-                    <div class="flex justify-between">
-                        <div>
-                            <p class="text-gray-700">Add By: {{ $project->addby->username }}</p> 
-                            <p class="text-gray-700">Add Date: {{ $project->created_at->format('Y-m-d') }}</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-700">Last Edit By: {{ $project->editby->username }}</p> 
-                            <p class="text-gray-700">Last Edit Date: {{ $project->updated_at->format('Y-m-d') }}</p>
-                        </div>
-                    </div> 
-                </div><br>                                                                       
+                @endif                                                                       
             </div>
         </div>
     </div>
