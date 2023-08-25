@@ -60,18 +60,18 @@
   <div class="md:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">        
       <a href="{{ route('dashboard') }}" class="{{ (request()->segment(1) == 'dashboard') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700" aria-current="page">Dashboard</a>
+      @if (auth()->user()->type == 'Admin' || auth()->user()->type == 'Manager')
+      <a href="{{ route('calendar.index') }}" class="{{ (request()->segment(1) == 'calendar') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Calendar</a>   
+      @endif
+      <a href="{{ route('projects.index') }}" class="{{ (request()->segment(1) == 'projects') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Projects</a>
       @if (auth()->user()->type == 'Admin')
       <a href="{{ route('users.index') }}" class="{{ (request()->segment(1) == 'users') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Users</a>
       @endif
       @if (auth()->user()->type != 'Worker')
       <a href="{{ route('departments.index') }}" class="{{ (request()->segment(1) == 'departments') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Departments</a>
-      @endif
-      <a href="{{ route('projects.index') }}" class="{{ (request()->segment(1) == 'projects') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Projects</a>
+      @endif      
       <a href="{{ route('tasks.index') }}" class="{{ (request()->segment(1) == 'tasks') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Tasks</a>
-      <a href="{{ route('todo.index') }}" class="{{ (request()->segment(1) == 'todo') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">To do</a>
-      @if (auth()->user()->type == 'Admin' || auth()->user()->type == 'Manager')
-      <a href="{{ route('calendar.index') }}" class="{{ (request()->segment(1) == 'calendar') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">Calendar</a>   
-      @endif
+      <a href="{{ route('todo.index') }}" class="{{ (request()->segment(1) == 'todo') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-gray-50 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">To do</a>      
     </div>
     <div class="border-t border-emerald-700 pt-4 pb-3">
       <div class="mt-3 space-y-1 px-2">
