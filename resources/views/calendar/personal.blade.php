@@ -40,6 +40,15 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             events: @json($events),
             initialView: 'dayGridMonth',
+            selectable: 'true',
+            selectHelper: 'true',
+            select: function(info) {
+                // Extract the selected date from the 'info' object
+                var selectedDate = info.start.toISOString();
+
+                // Redirect to the 'calendar.add' route with the selected date as a query parameter
+                window.location.href = "{{ route('calendar.add') }}?selectdate=" + selectedDate;
+            }
         });
         calendar.render();
 

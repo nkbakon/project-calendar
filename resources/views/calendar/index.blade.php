@@ -24,7 +24,7 @@
                 <button id="weekView" class="inline-flex items-center px-4 py-2 bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-900 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">Week</button>
                 <button id="dayView" class="inline-flex items-center px-4 py-2 bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-900 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">Day</button>
                 <br>
-                <div id='calendar'></div>                
+                <div id='calendar'></div>              
             </div>
         </div>
     </div>
@@ -40,6 +40,15 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             events: @json($events),
             initialView: 'dayGridMonth',
+            selectable: 'true',
+            selectHelper: 'true',
+            select: function(info) {
+                // Extract the selected date from the 'info' object
+                var selectedDate = info.start.toISOString();
+
+                // Redirect to the 'calendar.add' route with the selected date as a query parameter
+                window.location.href = "{{ route('calendar.add') }}?selectdate=" + selectedDate;
+            }
         });
         calendar.render();
 

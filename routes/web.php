@@ -33,6 +33,14 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource('calendar', CalendarController::class)->except('show');
     Route::get('calendar/personal', [CalendarController::class, 'personal'])->name('calendar.personal');
+    Route::get('calendar/add', [CalendarController::class, 'add'])->name('calendar.add');
+    Route::put('calendar/check/{selectedDate}', [CalendarController::class, 'update'])->name('calendar.update');
+    Route::get('calendar/task', function () {
+        return view('calendar.task');
+    })->name('calendar.task');
+    Route::get('calendar/project', function () {
+        return view('calendar.project');
+    })->name('calendar.project');
 
     Route::resource('departments', DepartmentController::class);
     Route::resource('projects', ProjectController::class);

@@ -16,7 +16,7 @@ class CalendarController extends Controller
             return [
                 'title' => $project->title,
                 'start' => Carbon::parse($project->due_date)->format('Y-m-d'),
-                'url' => route('projects.index'),
+                'url' => route('projects.view', $project),
                 'color' => '#3498db',
             ];
         });
@@ -67,5 +67,26 @@ class CalendarController extends Controller
         $events = array_merge($projects->toArray(), $tasks->toArray());
 
         return view('calendar.personal', compact('events'));
+    }
+
+    public function add(Request $request) {
+        $selectdate = $request->query('selectdate');
+        $datetime = new \DateTime($selectdate);
+        $datetime->modify('+1 day');
+        $selectedDate = $datetime->format('Y-m-d');
+
+        return view('calendar.add', compact('selectedDate'));
+    }
+
+    public function update(Request $request, $selectedDate)
+    {
+        $type = $request->input('type');
+        
+        if($type == 'Project'){
+            return view('calendar.project', compact('selectedDate'));
+        }
+        else{
+            return view('calendar.task', compact('selectedDate'));
+        }
     }
 }
