@@ -5,15 +5,19 @@ namespace App\Http\Livewire\Calendar\Forms;
 use Livewire\Component;
 use App\Models\Project;
 use App\Models\User;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 
 class CreateProject extends Component
 {
+    use WithFileUploads;
+
     public $selectedDate;
     public $title;
     public $start_date;
     public $due_date;
     public $note;
+    public $documents = [];
     public $index;
     public $rows = [''];
     public $users = [];
@@ -75,6 +79,16 @@ class CreateProject extends Component
         $data['due_date'] = $this->due_date;
         $data['note'] = $this->note;
         $data['add_by'] = Auth::user()->id;
+
+        foreach ($this->documents as $document) {
+            $originalFileName = $document->getClientOriginalName();
+            $originalNames[] = $originalFileName;
+
+            $urls[] = $document->store('documents', 'public');
+        }
+
+        $data['documents'] = json_encode($urls);
+        $data['original_names'] = json_encode($originalNames);
         
         $userQuantities  = [];
                

@@ -5,14 +5,18 @@ namespace App\Http\Livewire\Projects\Forms;
 use Livewire\Component;
 use App\Models\Project;
 use App\Models\User;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 
 class CreateForm extends Component
 {
+    use WithFileUploads;
+    
     public $title;
     public $start_date;
     public $due_date;
     public $note;
+    public $documents = [];
     public $index;
     public $rows = [''];
     public $users = [];
@@ -73,6 +77,16 @@ class CreateForm extends Component
         $data['due_date'] = $this->due_date;
         $data['note'] = $this->note;
         $data['add_by'] = Auth::user()->id;
+
+        foreach ($this->documents as $document) {
+            $originalFileName = $document->getClientOriginalName();
+            $originalNames[] = $originalFileName;
+
+            $urls[] = $document->store('documents', 'public');
+        }
+
+        $data['documents'] = json_encode($urls);
+        $data['original_names'] = json_encode($originalNames);
         
         $userQuantities  = [];
                

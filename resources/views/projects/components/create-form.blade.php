@@ -24,6 +24,12 @@
     </div>
     @error('note') <span class="text-red-500 error">{{ $message }}</span><br> @enderror
     <br>
+    <div>
+        <label for="documents">Upload Documents</label><br>
+        <input type="file" name="documents" class="block w-96 appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" wire:model="documents" multiple required>
+    </div>
+    @error('documents') <span class="text-red-500 error">{{ $message }}</span><br> @enderror
+    <br>
     @foreach ($rows as $index => $row)
         <div>
             <strong class="inline-flex">{{ $index+1 }}.</strong>

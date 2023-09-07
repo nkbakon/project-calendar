@@ -44,18 +44,56 @@
                             </div>                            
                         </div>
                     </div> 
-                </div><br>                               
-                @if($project->user_ids != null)
-                <p class="text-gray-700">Users</p>
-                <div class="py-5 bg-gray-100 px-5 rounded-lg w-96">                    
-                    @php
-                        $user_ids = json_decode($project->user_ids);
-                    @endphp
-                    @for ($i = 0; $i < count($user_ids); $i++)
-                    <p class="text-gray-700">{{ App\Models\User::find($user_ids[$i])->fname }} {{ App\Models\User::find($user_ids[$i])->lname }} ({{ App\Models\User::find($user_ids[$i])->username }})</p>
-                    @endfor
                 </div><br>
-                @endif                                                                       
+                <div class="flex justify-between">                               
+                    <div>
+                        @if($project->user_ids != null)
+                        <p class="text-gray-700">Users</p>
+                        <div class="py-5 bg-gray-100 px-5 rounded-lg w-96">                    
+                            @php
+                                $user_ids = json_decode($project->user_ids);
+                            @endphp
+                            @for ($i = 0; $i < count($user_ids); $i++)
+                            <p class="text-gray-700">{{ App\Models\User::find($user_ids[$i])->fname }} {{ App\Models\User::find($user_ids[$i])->lname }} ({{ App\Models\User::find($user_ids[$i])->username }})</p>
+                            @endfor
+                        </div><br>
+                        @endif
+                    </div>
+                    <div>
+                        @if($project->original_names != null)
+                        <p class="text-gray-700">Documents</p>
+                        <div class="py-5 bg-gray-100 px-5 rounded-lg w-96">                    
+                            @php
+                                $original_names = json_decode($project->original_names);
+                                $documents = json_decode($project->documents);
+                            @endphp
+                            @for ($i = 0; $i < count($original_names); $i++)                                
+                                @php
+                                    $fileExtension = pathinfo($original_names[$i], PATHINFO_EXTENSION);
+                                @endphp
+                                @if ($fileExtension == "pdf")
+                                    <img class="h-6 w-6" src="{{ asset('assets/pdf.png') }}">
+                                @elseif ($fileExtension == "xls" || $fileExtension == "xlsx")
+                                    <img class="h-6 w-6" src="{{ asset('assets/xls.png') }}">
+                                @elseif ($fileExtension == "doc" || $fileExtension == "docx")
+                                    <img class="h-6 w-6" src="{{ asset('assets/doc.png') }}">
+                                @elseif ($fileExtension == "jpg" || $fileExtension == "jpeg")
+                                    <img class="h-6 w-6" src="{{ asset('assets/jpg.png') }}">
+                                @elseif ($fileExtension == "png")
+                                    <img class="h-6 w-6" src="{{ asset('assets/png.png') }}">
+                                @elseif ($fileExtension == "ppt" || $fileExtension == "pptx")
+                                    <img class="h-6 w-6" src="{{ asset('assets/ppt.png') }}">
+                                @elseif ($fileExtension == "txt")
+                                    <img class="h-6 w-6" src="{{ asset('assets/txt.png') }}">
+                                @else
+                                    <img class="h-6 w-6" src="{{ asset('assets/file.png') }}">
+                                @endif
+                                <a href="{{ asset('storage') }}/{{ $documents[$i] }}" target="_blank"><p class="text-gray-700 text-sm">{{ $original_names[$i] }}</p></a>
+                            @endfor
+                        </div><br>
+                        @endif
+                    </div>
+                </div>                                                                       
             </div>
         </div>
     </div>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('due_date');
             $table->string('note')->nullable();
+            $table->text('documents');
+            $table->text('original_names');
             $table->text('user_ids');         
             $table->integer('add_by');
             $table->integer('edit_by')->nullable();
