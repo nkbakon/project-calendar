@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('fname');
             $table->string('lname');
+            $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->enum('type', ['Admin', 'Manager', 'Worker']);

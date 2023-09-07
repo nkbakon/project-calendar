@@ -63,6 +63,8 @@ class CreateForm extends Component
             $data['department_id'] = $this->department;
         }
         $data['password'] = Hash::make($this->password);
+        $data['name'] = $this->fname . ' ' . $this->lname;
+        dd($data['name']);
 
         $user = User::create($data);
         if($user){

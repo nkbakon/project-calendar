@@ -45,7 +45,7 @@ class EditForm extends Component
             $data['department_id'] = $validatedData['user']['department_id'];
         }
         $data['status'] = $validatedData['user']['status'];
-
+        $data['name'] = $validatedData['user']['fname'] . ' ' . $validatedData['user']['lname'];
         
         $this->user->update($data);        
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
