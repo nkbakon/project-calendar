@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -28,6 +29,10 @@ class ProjectController extends Controller
         $project = Project::find($request->data_id);
         if($project)
         {
+            $documents = json_decode($project->documents);
+            foreach ($documents as $document) {
+                Storage::disk('public')->delete($document);
+            }
             $project->delete();
             return redirect()->route('projects.index')->with('delete', 'Project deleted successfully.');
         }

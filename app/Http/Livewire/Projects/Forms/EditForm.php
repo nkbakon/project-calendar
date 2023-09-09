@@ -6,14 +6,21 @@ use Livewire\Component;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class EditForm extends Component
 {
+    use WithFileUploads;
+
     public $project;
     public $all_users;
     public $rows = [''];
     public $index;
-    public $user; 
+    public $user;
+    public $original_names = [];
+    public $documents = [];
+    public $updatedocuments = []; 
 
     public function rules()
     {
@@ -34,6 +41,8 @@ class EditForm extends Component
     {
         $this->all_users = User::where('status', 'Active')->get();
         $this->project = $project;
+        $this->documents = $project->documents;
+        $this->original_names = $project->original_names;
         $this->title = $project->title;
         $this->start_date = $project->start_date;
         $this->due_date = $project->due_date;
@@ -51,6 +60,18 @@ class EditForm extends Component
         
     }
 
+    public function removeDocs()
+    {
+        $documents = json_decode($this->documents);
+        foreach ($documents as $document) {
+            Storage::disk('public')->delete($document);
+        }
+        $data['original_names'] = '';
+        $data['documents'] = '';
+        $this->project->update($data);
+        return redirect()->route('projects.edit', $this->project->id);
+    }
+
     public function update()
     {
         $validatedData = $this->validate($this->rules());
@@ -60,6 +81,18 @@ class EditForm extends Component
         $data['due_date'] = $this->due_date;
         $data['note'] = $this->note;
         $data['edit_by'] = Auth::user()->id;
+
+        if($this->documents == ''){
+            foreach ($this->updatedocuments as $document) {
+                $originalFileName = $document->getClientOriginalName();
+                $originalNames[] = $originalFileName;
+
+                $urls[] = $document->store('documents', 'public');
+            }
+            $data['documents'] = json_encode($urls);
+            $data['original_names'] = json_encode($originalNames);
+        }
+
         if($this->project->user_ids != null)
         {
             $data['user_ids'] = json_encode($validatedData['user']);
