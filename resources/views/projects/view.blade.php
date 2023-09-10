@@ -93,7 +93,61 @@
                         </div><br>
                         @endif
                     </div>
-                </div>                                                                       
+                </div><br>
+                @php
+                    $tasks = App\Models\Task::where('project_id', $project->id)->get();
+                    $tasksGroupedByDepartment = $tasks->groupBy(function ($task) {
+                        return optional($task->user->department)->name; // Use optional() to handle null values
+                    });
+                @endphp
+
+                @foreach($tasksGroupedByDepartment as $department => $tasksInDepartment)
+                    @if($department)
+                        <div class="py-5 bg-gray-100 px-5 rounded-lg">
+                            <p class="text-base font-bold text-gray-800">{{ $department }}</p>
+                            <table>
+                                <tr>
+                                    <td class="text-gray-500 text-sm font-bold py-3 px-12">
+                                        Task
+                                    </td>
+                                    <td class="text-gray-500 text-sm font-bold py-3 px-12">
+                                        Note
+                                    </td>
+                                    <td class="text-gray-500 text-sm font-bold py-3 px-12">
+                                        User
+                                    </td>
+                                    <td class="text-gray-500 text-sm font-bold py-3 px-12">
+                                        Due Date
+                                    </td>
+                                    <td class="text-gray-500 text-sm font-bold py-3 px-12">
+                                        Status
+                                    </td>
+                                </tr>
+                                @foreach($tasksInDepartment as $task)
+                                    <tr>
+                                        <td class="py-3 px-12">
+                                            {{ $task->title }}
+                                        </td>
+                                        <td class="py-3 px-12">
+                                            {{ $task->note }}
+                                        </td>
+                                        <td class="py-3 px-12">
+                                            {{ $task->user->username }}
+                                        </td>
+                                        <td class="py-3 px-12">
+                                            {{ $task->due_date }}
+                                        </td>
+                                        <td class="py-3 px-12">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium leading-4 bg-{{ $task->status_color }}-100 text-{{ $task->status_color }}-900 capitalize">
+                                                {{ $task->status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div><br>
+                    @endif
+                @endforeach                                                                       
             </div>
         </div>
     </div>
