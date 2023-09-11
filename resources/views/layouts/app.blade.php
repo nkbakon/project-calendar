@@ -30,23 +30,24 @@
                             <a href="{{ route('dashboard') }}"><li class="{{ (request()->segment(1) == 'dashboard') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-10 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-gauge-high"></i> Dashboard</span>
                             </li></a>
-                            
+                            @if (auth()->user()->type == 'Admin' || auth()->user()->type == 'Manager')
                             <a href="{{ route('calendar.index') }}"><li class="{{ (request()->segment(1) == 'calendar') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-5 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-calendar-days"></i></i> Calendar</span>
                             </li></a>
-                            
+                            @endif
                             <a href="{{ route('projects.index') }}"><li class="{{ (request()->segment(1) == 'projects') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-5 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-sheet-plastic"></i> Projects</span>
                             </li></a>
-                            
+                            @if (auth()->user()->type == 'Admin')
                             <a href="{{ route('users.index') }}"><li class="{{ (request()->segment(1) == 'users') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-5 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-people-group"></i> Users</span>
                             </li></a>
-                           
+                            @endif
+                            @if (auth()->user()->type != 'Worker')
                             <a href="{{ route('departments.index') }}"><li class="{{ (request()->segment(1) == 'departments') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-5 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-building"></i> Departments</span>
                             </li></a>
-                                                                                    
+                            @endif                                                        
                             <a href="{{ route('tasks.index') }}"><li class="{{ (request()->segment(1) == 'tasks') ? 'bg-emerald-700 border-emerald-700': '' }} px-3 py-1 flex space-x-2 mt-5 rounded-md border border-emerald-500 cursor-pointer hover:bg-emerald-600 hover:border-emerald-700">					
                                 <span class="font-semibold"><i class="fa-solid fa-bars-progress"></i> Tasks</span>
                             </li></a>
