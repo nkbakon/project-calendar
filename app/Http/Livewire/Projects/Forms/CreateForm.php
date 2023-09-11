@@ -78,6 +78,9 @@ class CreateForm extends Component
         $data['note'] = $this->note;
         $data['add_by'] = Auth::user()->id;
 
+        $originalNames = [];
+        $urls = [];
+
         foreach ($this->documents as $document) {
             $originalFileName = $document->getClientOriginalName();
             $originalNames[] = $originalFileName;
