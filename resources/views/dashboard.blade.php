@@ -52,6 +52,9 @@
                 Title
               </th>
               <th class="py-3 px-4">
+                Users
+              </th>
+              <th class="py-3 px-4">
                 Due Date
               </th>
               <th class="py-3 px-4">
@@ -68,6 +71,20 @@
               <td class="py-3 px-4">
                 {{ $project->title }}
               </td>
+              @if($project->user_ids != null)
+              @php
+                $user_ids = json_decode($project->user_ids);
+              @endphp              
+              <td class="py-3 px-4">
+              @for ($i = 0; $i < count($user_ids); $i++)
+                {{ App\Models\User::find($user_ids[$i])->username }},
+              @endfor
+              </td>
+              @else
+              <td class="py-3 px-4">
+                -
+              </td>
+              @endif
               <td class="py-3 px-4">
                 {{ $project->due_date }}
               </td>
