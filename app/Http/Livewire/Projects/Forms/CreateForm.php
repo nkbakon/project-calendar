@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CreateForm extends Component
 {
@@ -85,7 +86,8 @@ class CreateForm extends Component
             $originalFileName = $document->getClientOriginalName();
             $originalNames[] = $originalFileName;
 
-            $urls[] = $document->store('documents', 'public');
+            $uploadedFileUrl = Cloudinary::uploadFile($document->getRealPath())->getSecurePath();
+            $urls[] = $uploadedFileUrl;
         }
 
         $data['documents'] = json_encode($urls);

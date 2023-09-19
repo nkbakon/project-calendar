@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProjectController extends Controller
 {
@@ -31,7 +32,8 @@ class ProjectController extends Controller
         {
             $documents = json_decode($project->documents);
             foreach ($documents as $document) {
-                Storage::disk('public')->delete($document);
+                $filenameWithoutExtension = pathinfo(basename($document), PATHINFO_FILENAME);
+                Cloudinary::destroy($filenameWithoutExtension);
             }
             $project->delete();
             return redirect()->route('projects.index')->with('delete', 'Project deleted successfully.');

@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CreateProject extends Component
 {
@@ -87,7 +88,8 @@ class CreateProject extends Component
             $originalFileName = $document->getClientOriginalName();
             $originalNames[] = $originalFileName;
 
-            $urls[] = $document->store('documents', 'public');
+            $uploadedFileUrl = Cloudinary::uploadFile($document->getRealPath())->getSecurePath();
+            $urls[] = $uploadedFileUrl;
         }
 
         $data['documents'] = json_encode($urls);

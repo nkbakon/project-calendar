@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class EditForm extends Component
 {
@@ -83,11 +84,14 @@ class EditForm extends Component
         $data['edit_by'] = Auth::user()->id;
 
         if($this->documents == ''){
+            $originalNames = [];
+            $urls = [];
             foreach ($this->updatedocuments as $document) {
                 $originalFileName = $document->getClientOriginalName();
                 $originalNames[] = $originalFileName;
 
-                $urls[] = $document->store('documents', 'public');
+                $uploadedFileUrl = Cloudinary::uploadFile($document->getRealPath())->getSecurePath();
+                $urls[] = $uploadedFileUrl;
             }
             $data['documents'] = json_encode($urls);
             $data['original_names'] = json_encode($originalNames);

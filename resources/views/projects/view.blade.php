@@ -88,7 +88,7 @@
                                 @else
                                     <img class="h-6 w-6" src="{{ asset('assets/file.png') }}">
                                 @endif
-                                <a href="{{ asset('storage') }}/{{ $documents[$i] }}" target="_blank"><p class="text-gray-700 text-sm">{{ $original_names[$i] }}</p></a>
+                                <a href="{{ $documents[$i] }}" target="_blank"><p class="text-gray-700 text-sm">{{ $original_names[$i] }}</p></a>
                             @endfor
                         </div><br>
                         @endif
