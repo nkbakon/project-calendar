@@ -65,7 +65,8 @@ class EditForm extends Component
     {
         $documents = json_decode($this->documents);
         foreach ($documents as $document) {
-            Storage::disk('public')->delete($document);
+            $filenameWithoutExtension = pathinfo(basename($document), PATHINFO_FILENAME);
+            Cloudinary::destroy($filenameWithoutExtension);
         }
         $data['original_names'] = '';
         $data['documents'] = '';
